@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="course_tree_view">
+            <field name="name">course.tree</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Course Tree">
+                    <field name="name"/>
+                    <field name="responsible_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="course_form_view">
+            <field name="name">course.form</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+                    <group>
+                        <field name="name" />
+                        <field name="responsible_id" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Description">
+                            <field name="description" nolabel="1" colspan="4" />
+                        </page>
+                        <page string="Sessions">
+                            <field name="session_ids" nolabel="1" colspan="4" >
+                                <tree string="Registered sessions">
+                                    <field name="name"/>
+                                    <field name="instructor_id"/>
+                                </tree>
+                      
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="course_search_view">
+            <field name="name">course.search</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Session Search">
+                    <filter string="My Courses" icon="terp-partner"
+                             name="my_courses"
+                             domain="[('responsible_id','=',uid)]"
+                             help="My own ideas" />
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="openacademy_course_graph_view">
+            <field name="name">openacademy.course.graph</field>
+            <field name="model">openacademy.course</field>
+            <field name="type">graph</field>
+            <field name="arch" type="xml">
+                <graph string="Participations by Courses" type="bar">
+                    <field name="name"/>
+                    <field name="attendee_count" operator="+"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="session_tree_view">
+            <field name="name">session.tree</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Session Tree" colors="#00ff00:duration&lt;5;red:duration&gt;15">
+                    <field name="name"/>
+                    <field name="course_id"/>
+                    <field name="duration" invisible="1"/>
+                    <field name="remaining_seats_percent" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+
+      <record model="ir.ui.view" id="session_form_view">
+          <field name="name">session.form</field>
+          <field name="model">openacademy.session</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+              <form string="Session Form">
+                  <header>
+                    
+                    <button string="Confirm" type="object"
+                                            name="action_confirm"
+                                            states="draft" class="oe_highlight" />
+                    <button string="Mark as done" type="object"
+                                            name="action_done"
+                                            states="confirmed" class="oe_highlight" />
+                    <button string="Reset to draft" type="object"
+                                            name="action_draft"
+                                            states="confirmed,done" class="oe_highlight" />
+                    <field name="state" widget="statusbar"/>
+                  </header>
+                  <sheet>
+                     <group colspan="2" col="2">
+                          <separator string="General" colspan="2"/>
+                          <field name="name"/>
+                          <field name="attendee_count"/>
+                          <field name="instructor_id" />
+                          <field name="course_id"/>
+                          <field name="seats" on_change="onchange_remaining_seats(seats,attendee_ids)" />
+                          <field name="remaining_seats_percent"
+                                  widget="progressbar"/>
+                      </group>
+                      <group colspan="2" col="2">
+                          <separator string="Schedule" colspan="2"/>
+                          <field name="start_date"/>
+                          <field name="duration"/>
+                    
+                      </group>
+                      <group >
+                          <separator string="Attendees" colspan="4"/>
+                          <field name="attendee_ids" colspan="4" nolabel="1" 
+                              on_change="onchange_remaining_seats(seats,attendee_ids)">
+                              <tree string="Attendees" editable="bottom">
+                                  <field name="partner_id"/>
+                              </tree>
+                          </field>
+                      
+                      </group>
+                      
+                  </sheet>
+                 
+              </form>
+          </field>
+      </record>
+
+      <record model="ir.ui.view" id="session_calendar_view">
+          <field name="name">session.calendar</field>
+          <field name="model">openacademy.session</field>
+          <field name="type">calendar</field>
+          <field name="arch" type="xml">
+              <calendar string="Session Calendar"
+                      date_start="start_date"
+                      date_delay="duration"
+                      day_length="1"
+                      color="instructor_id">
+                    <field name="name"/>
+              </calendar>
+          </field>
+       </record>
+
+       <record model="ir.ui.view" id="session_gantt">
+          <field name="name">session.gantt</field>
+          <field name="model">openacademy.session</field>
+          <field name="type">gantt</field>
+          <field name="arch" type="xml">
+              <gantt string="Session Gantt" date_start="start_date"
+                     date_delay="duration" day_length="1" color="course_id">
+                  <level object="res.partner" link="instructor_id">
+                      <field name="name"/>
+                  </level>
+              </gantt>
+          </field>
+       </record>
+
+       <record model="ir.ui.view" id="openacademy_session_graph_view">
+           <field name="name">openacademy.session.graph</field>
+           <field name="model">openacademy.session</field>
+           <field name="type">graph</field>
+           <field name="arch" type="xml">
+               <graph string="Participations by Courses" type="bar">
+                   <field name="course_id"/>
+                   <field name="attendee_count" operator="+"/>
+               </graph>
+           </field>
+       </record>
+
+       <record model="ir.ui.view" id="openacademy_course_kanban_view">
+           <field name="name">openacademy.course.kanban</field>
+           <field name="model">openacademy.course</field>
+           <field name="type">kanban</field>
+           <field name="arch" type="xml">
+               <kanban default_group_by="responsible_id">
+                    <field name="name"/>
+                    <field name="responsible_id"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <field name="name"/>
+                                    </div>
+                                    <div class="oe_kanban_footer_left">
+                                        <field name="responsible_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>    
+                    </templates>
+                </kanban>
+
+               
+           </field>
+       </record>
+<!--
+        <record model="ir.ui.view" id="session_kanban_view">
+            <field name="name">session.kanban</field>
+            <field name="model">openacademy.session</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="course_id">
+                    <field name="state"/>
+                    <field name="color"/>
+                    <field name="priority"/>
+                    <field name="planned_revenue" sum="Expected Revenues"/>
+                    <field name="user_email"/>
+                    <field name="user_id"/>
+                    <field name="partner_address_email"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} #{border || ’’}">
+                                <div class="oe_kanban_box oe_kanban_color_border">
+                                    <table class="oe_kanban_table oe_kanban_box_header">
+                                        <tr>
+                                            <td align="left" valign="middle" width="16">
+                                                <a t-if="record.priority.raw_value == 1" icon="star-on"
+                                                type="object" name="set_normal_priority"/>
+                                                <a t-if="record.priority.raw_value != 1" icon="star-off"
+                                                type="object" name="set_high_priority"/>
+                                            </td>
+                                            <td align="left" valign="middle" class="oe_kanban_title">
+                                                <field name="partner_id"/>
+                                                <t t-if="record.planned_revenue.raw_value">
+                                                    - <t t-esc="record.planned_revenue.value"/>
+                                                    <field name="company_currency"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="oe_kanban_buttons_set oe_kanban_box_show_onclick">
+                                <div class="oe_kanban_left">
+                                    <a string="Edit" icon="gtk-edit" type="edit"/>
+                                    <a string="Change Color" icon="color-picker" type="color" name="color"/>
+                                    <a string="Log Call" name="%(opportunity2phonecall_act)d"
+                                    icon="terp-call-start" type="action"/>
+                                </div>
+                                <div class="oe_kanban_right">
+                                    <a name="case_open" string="Open" states="pending"
+                                    type="object" icon="gtk-media-play" />
+                                    <a name="case_mark_won" string="Mark Won" states="open,pending"
+                                    type="object" icon="kanban-apply" />
+                                </div>
+                                <br class="oe_kanban_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+-->
+        <record model="ir.actions.act_window" id="course_list_action">
+            <field name="name">Courses</field>
+            <field name="res_model">openacademy.course</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph,kanban</field>
+            <field name="search_view_id" ref="course_search_view"/>
+            <field name="context">{'search_default_my_courses':1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="session_list_action">
+            <field name="name">Sessions</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,gantt,graph</field>
+        </record>
+
+        <menuitem id="openacademy_menu" name="OpenAcademy" />
+
+        <menuitem id="openacademy_all" name="OpenAcademy" parent="openacademy_menu" />
+
+        <menuitem id="course_menu" name="Courses" parent="openacademy_all"
+            action="course_list_action" />
+
+        <menuitem id="session_menu" name="Sessions" parent="openacademy_all"
+                action="session_list_action" />
+    </data>
+</openerp>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <report
+          id="sessions_report"
+          string="Print sessions"
+          model="openacademy.session"
+          name="sessions.report"
+          rml="openacademy/report/sessions.rml"
+        />
+    </data>
+</openerp>
