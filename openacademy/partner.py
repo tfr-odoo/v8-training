@@ -1,13 +1,8 @@
-from openerp.osv import osv, fields
+from openerp import models, fields, api, exceptions
 
-class Partner(osv.osv):
+class Partner(models.Model):
     _inherit = 'res.partner'
 
-    _columns = {
-        'instructor' : fields.boolean('Instructor'),
-        'session_ids': fields.many2many('openacademy.session',
-            'openacademy_attendee',
-            'partner_id','session_id','Sessions')
-    }
+    instructor = fields.Boolean()
+    session_ids = fields.Many2many('openacademy.session', string="Sessions")
 
-Partner()

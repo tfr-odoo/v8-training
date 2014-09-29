@@ -74,7 +74,7 @@
             <field name="model">openacademy.session</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Session Tree" colors="#00ff00:duration&lt;5;red:duration&gt;15">
+                <tree string="Session Tree" colors="#00ff00:duration&lt;5;red:duration&gt;15" default_order="course_id,name">
                     <field name="name"/>
                     <field name="course_id"/>
                     <field name="duration" invisible="1"/>
@@ -109,7 +109,7 @@
                           <field name="attendee_count"/>
                           <field name="instructor_id" />
                           <field name="course_id"/>
-                          <field name="seats" on_change="onchange_remaining_seats(seats,attendee_ids)" />
+                          <field name="seats"  />
                           <field name="remaining_seats_percent"
                                   widget="progressbar"/>
                       </group>
@@ -121,8 +121,7 @@
                       </group>
                       <group >
                           <separator string="Attendees" colspan="4"/>
-                          <field name="attendee_ids" colspan="4" nolabel="1" 
-                              on_change="onchange_remaining_seats(seats,attendee_ids)">
+                          <field name="attendee_ids" colspan="4" nolabel="1" >
                               <tree string="Attendees" editable="bottom">
                                   <field name="partner_id"/>
                               </tree>
@@ -172,7 +171,8 @@
            <field name="arch" type="xml">
                <graph string="Participations by Courses" type="bar">
                    <field name="course_id"/>
-                   <field name="attendee_count" operator="+"/>
+                   <field name="instructor_id" />
+                   <field name="seats" type="measure"/>
                </graph>
            </field>
        </record>

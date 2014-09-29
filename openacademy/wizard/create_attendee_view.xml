@@ -7,17 +7,21 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Add attendee" col="2">
-                    <field name="session_id"/>
-                    <field name="attendee_ids" mode="tree">
-                        <tree string="Attendees" editable="bottom">
-                            <field name="partner_id"/>
-                        </tree>                    
-                    </field>                
-                    <button type="special" special="cancel"
-                            string="Cancel" icon="gtk-cancel"/>
-                    <button type="object" name="action_add_attendee"
-                            string="Add attendees" icon="gtk-ok"
-                            confirm="Are you sure you want to add those attendees?"/>    
+                	<group>
+	                    <field name="session_id"/>
+	                    <field name="attendee_ids" mode="tree">
+	                        <tree string="Attendees" editable="bottom">
+	                            <field name="partner_id"/>
+	                        </tree>                    
+	                    </field>   
+	                    <footer>
+		                    <button type="special" special="cancel"
+		                            string="Cancel" icon="gtk-cancel"/>
+		                    <button type="object" name="action_add_attendee"
+		                            string="Add attendees" icon="gtk-ok"
+		                            confirm="Are you sure you want to add those attendees?"/>    
+	                    </footer>             
+                	</group>
                 </form>
             </field>
         </record>
