@@ -1,0 +1,35 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="training_wizard_view">
+            <field name="name">training.wizard.form</field>
+            <field name="model">training.wizard</field>
+            <field name="arch" type="xml">
+				<form string="Training">
+    				<header>
+    					<button type="object" name="save" string="Save" />
+	    			</header>
+	    			<sheet>
+
+		        		<group>
+		        		<field name="unit_price" />
+		        		<field name="training_ids" />
+		        		</group>
+		        		
+		        		
+	    			</sheet>
+				</form>
+			</field>
+		</record>
+		
+        <act_window name="Chaneg Price"
+            res_model="training.wizard"
+            src_model="training.training"
+            id="act_training_wizard"
+             view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            />	
+	</data>
+
+
+</openerp>

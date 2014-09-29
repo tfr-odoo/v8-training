@@ -1,0 +1,52 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="training_view">
+            <field name="name">training.training.form</field>
+            <field name="model">training.training</field>
+            <field name="arch" type="xml">
+				<form string="Training">
+    				<header>
+    					<button type="object" name="click" string="Click" />
+	    			</header>
+	    			<sheet>
+
+		        		<group>
+		        		<field name="name" />
+		        		<field name="description" />
+		        		<field name="unit_price" />
+		        		<field name="qty" />
+		        		<field name="total" />
+		        		<field name="total_store" />
+		        		<field name="client_id" />
+		        		<field name="client_name" />
+		        		</group>
+		        		
+		        		
+	    			</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="training_action">
+            <field name="name">Training</field>
+            <field name="res_model">training.training</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first training
+                </p>
+            </field>
+        </record>
+
+        <!-- top level menu: no paret -->
+        <menuitem id="main_training" name="Training"/>
+        <menuitem id="training_menu" name="Training"
+                  parent="main_training"/>
+        <menuitem id="teacher_menu" name="Training" parent="training_menu"
+                  action="training_action"/>
+	
+	
+	</data>
+
+
+</openerp>

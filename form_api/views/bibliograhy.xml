@@ -1,0 +1,77 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="course_form_view">
+            <field name="name">bibliography.form</field>
+            <field name="model">form_api.bibliography</field>
+            <field name="arch" type="xml">
+				<form string="Bibliography Form">
+    				<header>
+    					<button type="object" name="reset" string="Reset" />
+	    			</header>
+	    			<sheet>
+		        		<div class="oe_title">
+		            		<label for="name" class="oe_edit_only" string="Publication Name" />
+		            		<h1><field name="name" /></h1>
+		        		</div>
+		        		<group>
+		        			<group>
+			        			<field name="nb_sold" />
+			        			<field name="unit_price" />
+			        			<field name="total_sold" />
+		        			</group>
+		        			<group>
+			        			<field name="date" />
+			        			<field name="teacher_id" />
+			        			<field name="year"/>
+		        			</group>
+		        		</group>
+		        		<separator string="General" colspan="2" />
+		        		<group colspan="2" col="2">
+		            		<field name="description" placeholder="Publication description..." />
+		        		</group>
+	    			</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="course_tree_view">
+            <field name="name">bibliography.form</field>
+            <field name="model">form_api.bibliography</field>
+            <field name="arch" type="xml">
+				<tree string="Bibliography Form">
+    				<field name="name" />
+    				<field name="user_id" />
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="biblio_graph_view">
+            <field name="name">bibliography.graph</field>
+            <field name="model">form_api.bibliography</field>
+            <field name="arch" type="xml">
+                <graph string="Publication Analysis">
+                    <field name="teacher_id"/>
+                    <field name="nb_sold" type="measure"/>
+                </graph>
+            </field>
+        </record>
+		
+		
+
+		<record model="ir.actions.act_window" id="bibliography_action">
+            <field name="name">Bibliography</field>
+            <field name="res_model">form_api.bibliography</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first Bibliography
+                </p>
+            </field>
+        </record>
+
+        <!-- top level menu: no paret -->
+        <menuitem id="bibliography_menu" name="Bibliography" parent="formation_menu"
+                  action="bibliography_action"/>
+	</data>
+
+</openerp>

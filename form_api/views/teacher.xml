@@ -1,0 +1,48 @@
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="teacher_form_view">
+            <field name="name">form_api.teacher.form</field>
+            <field name="model">form_api.teacher</field>
+            <field name="arch" type="xml">
+				<form string="Bibliography Form">
+    				<header>
+	    			</header>
+	    			<sheet>
+		        		<div class="oe_title">
+		            		<label for="name" class="oe_edit_only" string="Publication Name" />
+		            		<h1><field name="name" /></h1>
+		        		</div>
+		        		
+		        		<separator string="Publications" colspan="2" />
+		            	<field name="publication_ids">
+		            		<tree>
+		            			<field name="name" />
+		            			<field name="date" />
+		            			<field name="description" />
+		            			
+		            		</tree>
+		            	</field>
+	    			</sheet>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="teacher_action">
+            <field name="name">Teacher</field>
+            <field name="res_model">form_api.teacher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first teacher
+                </p>
+            </field>
+        </record>
+
+        <!-- top level menu: no paret -->
+        <menuitem id="main_formation" name="Formation"/>
+        <menuitem id="formation_menu" name="Formation"
+                  parent="main_formation"/>
+        <menuitem id="teacher_menu" name="Teacher" parent="formation_menu"
+                  action="teacher_action"/>
+	</data>
+
+</openerp>

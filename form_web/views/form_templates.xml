@@ -1,0 +1,79 @@
+<openerp><data>
+  	<template id="index">
+    	<title>Formation</title>
+        <table>
+        	<tr>
+        		<th>
+        			Id
+        		</th>
+        		<th>
+        			Name
+        		</th>
+        		<th>
+        			Email
+        		</th>
+        	</tr>
+	    	<t t-foreach="trainees" t-as="trainees">
+	    		<tr>
+	    			<td>
+        				<t t-esc="trainee.id"/>
+        			</td>
+        			<td>
+        				<t t-esc="trainee.name"/>
+        			</td>
+        			<td>
+        				<t t-if="trainee.email">
+	        				&lt; <t t-esc="trainee.email"/> &gt;
+        				</t>
+        			</td>
+	    		</tr>
+	    	</t>
+	    </table>
+  	</template>
+  	
+  	<template id="training">
+		<t t-call="website.layout">
+			<t t-set="title">Academy</t>
+		    <div id="wrap">
+				<div class="oe_structure">
+				    <div class="container">
+				        <t t-foreach="trainees" t-as="trainee">
+				        	<div class="row">
+				            	<div class="col-md-1">
+				            		<t t-esc="trainee.id"/>
+				            	</div>
+				            	<div class="col-md-3">
+				            		 <t t-esc="trainee.name"/>
+				            	</div>
+				            	<div class="col-md-5">
+				            		<t t-if="trainee.email"> &lt; <t t-esc="trainee.email"/> &gt; </t>
+				            	</div> 
+				            	<div class="col-md-3">
+				            		<a class="btn btn-link" t-attf-href="/training/{{trainee.id}}">view</a> - <a class="btn btn-link" t-attf-href="/trainee/{{slug(trainee)}}">edit</a>
+				            	</div>
+				        	</div>
+				        </t>
+				    </div>
+				</div>
+			</div>
+	    </t>
+  	</template>
+  	
+  	
+  <template id="trainee">
+		<t t-call="website.layout">
+		    <div id="wrap">
+		    	<div class="oe_structure" />
+				<div class="oe_structure">
+				    <div class="container">
+				        <h1 t-field="trainee.name" />
+				        <p><span t-field="trainee.comment" /></p>
+				        <p>Last modified: <i t-field="trainee.write_date" t-field-options='{"format": "long"}'/></p>
+				    </div>
+				</div>
+				<div class="oe_structure" />
+			</div>
+	    </t>
+  	</template>
+  	
+</data></openerp>

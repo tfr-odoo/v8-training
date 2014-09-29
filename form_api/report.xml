@@ -1,0 +1,33 @@
+<openerp>
+	<data>
+		<report
+		    id="teacher_bibliography"
+		    model="form_api.teacher"
+		    string="Bibliography"
+		    report_type="qweb-pdf"
+		    name="form_api.teacher_report_bibli"
+		    file="form_api_teacher_report_bibli"
+		    attachment="(object.name + '.pdf')"
+		/>
+<!-- 		    attachment_use="False" -->
+		
+		<template id="teacher_report_bibli">
+	        <t t-call="report.html_container">
+	            <t t-foreach="docs" t-as="doc">
+	                <t t-call="report.external_layout">
+	                    <div class="page">
+	                    	<div class="oe_structure" />
+	                        <h2 t-field="doc.name"/>
+	                        <t t-foreach="doc.publication_ids" t-as="pub">
+	                        	<p t-field="pub.name" />
+	                        	
+	                        </t>
+	                        <div class="oe_structure" />
+	                    </div>
+	                </t>
+	            </t>
+	        </t>
+    	</template>
+	
+	</data>
+</openerp>
