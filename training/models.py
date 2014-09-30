@@ -5,16 +5,8 @@ from openerp.tools.translate import _
 from openerp.osv import fields as old_fields, osv, orm
 
 
-class TrainingParent(models.Model):
-    _name = 'training.old'
-    _columns = {
-        'name' : old_fields.char("Name old", readonly=True),
-                
-    }
-
 class Training(models.Model):
     _name = 'training.training'
-    _inherit = 'training.old'
 
     def _get_default_qty(self):
         print self
@@ -30,19 +22,20 @@ class Training(models.Model):
         
     name = fields.Char(required=True, readonly=False)
     description = fields.Char("Note")
-    unit_price = fields.Float(copy=False)
+    unit_price = fields.Float(copy=False, default=8.0)
     #qty = fields.Integer(default=_get_default_qty)
-    qty = fields.Integer()
+    qty = fields.Integer(default=10)
     total = fields.Float(compute='_get_total', 
-                         #inverse='_inverse_total',
+                         inverse='_inverse_total',
                          #search='_search_total',
-                         store=True, required=False, default=_get_default_total)
+                         store=False, required=False, default=_get_default_total)
     total_store = fields.Float(compute='_get_total_store', 
                          #inverse='_inverse_total',
                          #search='_search_total',
                          store=True, required=False, default=_get_default_total)
     client_id = fields.Many2one(comodel_name='res.partner', index=True)
     client_name = fields.Char(related='client_id.name', store=False)
+    date = fields.Date()
     
     @api.onchange('client_id')
     def _onchange_partner(self):
@@ -71,8 +64,8 @@ class Training(models.Model):
         
     @api.multi
     def click(self):
-        self.ensure_one()
-        self = self[0]
+        #self.ensure_one()
+        print self.name
         record = self.search([])
         record = self.browse()
         
@@ -80,10 +73,10 @@ class Training(models.Model):
         
         
         #si plus d'un élément 
-        self.name = "Click"
+        #self.name = "Click"
         self.description = "J'ai clické"
         #préféré
-        self.write({'name' : 'name', 'description' :  'j\'ai clické'})
+        #self.write({'name' : 'name', 'description' :  'j\'ai clické'})
         
         if record:
             print "not null"
@@ -96,6 +89,7 @@ class Training(models.Model):
     
         #lire premier élément de la liste
         recset = self.search([])
+        print recset.name
         print "list of ids", recset.ids
         print "tuple of ids", recset._ids
         #print 'first element of the list', recset.name
@@ -141,4 +135,15 @@ class Training(models.Model):
     def _check_qty(self):
         if self.qty < 0.0:
             raise exceptions.Warning(_("QTY error"), _("QTY cannot be negative"))
+    
+
+class Teachers(models.Model):
+    _name = 'academy.teachers'
+
+    name = fields.Char()
+    first_name = fields.Char()
+    age = fields.Integer()
+    description = fields.Html()
+    session_ids = fields.Many2many('training.training')
+    
     
