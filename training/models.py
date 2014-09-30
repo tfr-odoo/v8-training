@@ -153,3 +153,16 @@ class TrainingExtended(models.Model):
     editor = fields.Many2one('res.partner')
     
     
+class Publication(models.Model):
+    
+    _name = 'training.publication'
+    
+    name = fields.Char()
+    date = fields.Date()
+    teacher_id = fields.Many2one('academy.teachers')
+    
+class TeachersExtended(models.Model):
+    _inherit = 'academy.teachers'
+    
+    publication_ids = fields.One2many('training.publication', 'teacher_id')
+    

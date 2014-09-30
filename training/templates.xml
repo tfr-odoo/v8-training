@@ -27,42 +27,64 @@
            <h1><span t-field="teacher.first_name"/> <span t-field="teacher.name"/> </h1>
            <em>Age: <t t-raw="teacher.age"/></em>
            <p><t t-raw="teacher.description"/> </p>
-           <div class="row">
-    	
-           			<div class="col-md-3" ><strong>Session Name</strong></div>
-					<div class="col-md-1" ><strong>Quantity</strong></div>
-					<div class="col-md-1" ><strong>Unit Price</strong></div>
-					<div id="last_header" class="col-md-3" ><strong>Date</strong></div>
-           </div>
-           <t t-foreach="teacher.session_ids" t-as="session">
-           		<div class="row">
-					<div class="col-md-3" t-field="session.name" />
-					<div class="col-md-1" t-field="session.qty"  />
-					<div class="col-md-1" t-field="session.unit_price"  />
-					<div id="last_column" class="col-md-3" t-field="session.date" t-field-options='{"format": "dd MMMM yyyy"}' />
-				</div>
-           </t>
-           <p><a t-attf-href="/{{return_path}}">Back</a></p>
+           <t t-call="training.view_session" />
+           	<div class="bottom_teacher_view">
+	         	<p><a t-attf-href="/{{return_path}}">Back</a></p>
+           	
+           	</div>
         </div>
       </div>
       <div class="oe_structure" />
     </t>
   </template>
   
-  
+  <template id="test" inherit_id="view_teacher">
+  		<xpath expr="//div[@class='container']" position="inside">
+  			<h1>Publication</h1>
+  		</xpath>
+  </template>
   
   <template id="view_session">
-  	
+  		<div class="row">
+   				<div class="col-md-3" ><strong>Session Name</strong></div>
+				<div class="col-md-1" ><strong>Quantity</strong></div>
+				<div class="col-md-1" ><strong>Unit Price</strong></div>
+				<div class="col-md-3 last-header" ><strong>Date</strong></div>
+       </div>
+       <t t-foreach="teacher.session_ids" t-as="session">
+       	<div class="row" id="inside">
+			<div class="col-md-3" t-field="session.name" />
+			<div class="col-md-1" t-field="session.qty"  />
+			<div class="col-md-1" t-field="session.unit_price"  />
+			<div id="last_col" class="col-md-3" t-field="session.date" t-field-options='{"format": "dd MMMM yyyy"}' />
+		</div>
+       </t>
   
   
   </template>
   
 <!--   <template id="view_session_editor" inherit_id="view_teacher"> -->
-<!--   	<xpath expr="//div[@id='last_header']" position="after"> -->
+<!--   	<xpath expr="//div[@class='row'][1]" position="inside"> -->
 <!--   		<div class="col-mod-3" >Editeur</div> -->
-<!--   	</xpath>   -->
-<!--   	<xpath expr="//div[@id='last_column']" position="after"> -->
+<!--   	</xpath> -->
+<!--   	<xpath expr="//div[@class='container']/t/div/div[4]" position="after"> -->
 <!--   		<div class="col-mod-3" t-esc="session.editor.name" /> -->
-<!--   	</xpath>   -->
+<!--   	</xpath>    -->
 <!--   </template> -->
+  
+  
+  <template id="view_publication" inherit_id="view_teacher">
+  	<xpath expr="//div[@class='bottom_teacher_view']" position="before">
+  		<div class="row">
+   				<div class="col-md-3" ><strong>Publication Name</strong></div>
+				<div class="col-md-3" ><strong>Date</strong></div>
+       </div>
+       <t t-foreach="teacher.publication_ids" t-as="pub">
+       	<div class="row">
+			<div class="col-md-3" t-field="pub.name" />
+			<div id="last_col" class="col-md-3" t-field="pub.date" t-field-options='{"format": "dd MM yyyy"}' />
+		</div>
+       </t>
+  	</xpath>
+  </template>
 </data></openerp>

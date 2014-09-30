@@ -1,0 +1,31 @@
+<openerp><data>
+
+<report
+    id="teachers"
+    model="academy.teachers"
+    string="Report on Teacher"
+    report_type="qweb-pdf"
+    name="training.report_teacher"
+    file="Report Teacher"
+    attachment="(object.name)"
+/>
+
+	<template id="report_teacher">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="teacher">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                    	<div class="oe_structure" />
+                    	<div class="oe_structure">
+                     	<h1><span t-field="teacher.first_name"/> <span t-field="teacher.name"/> </h1>
+			           <em>Age: <t t-raw="teacher.age"/></em>
+			           <p><t t-raw="teacher.description"/> </p>
+                       <t t-call="training.view_session" />
+                       </div>
+                       <div class="oe_structure" />
+			        </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</data></openerp>

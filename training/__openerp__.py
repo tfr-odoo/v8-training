@@ -28,6 +28,7 @@
         'templates.xml',
         'view.xml',
         'wizard.xml',
+        'report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
