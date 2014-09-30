@@ -28,17 +28,18 @@
            <em>Age: <t t-raw="teacher.age"/></em>
            <p><t t-raw="teacher.description"/> </p>
            <div class="row">
+    	
            			<div class="col-md-3" ><strong>Session Name</strong></div>
 					<div class="col-md-1" ><strong>Quantity</strong></div>
 					<div class="col-md-1" ><strong>Unit Price</strong></div>
-					<div class="col-md-3" ><strong>Date</strong></div>
+					<div id="last_header" class="col-md-3" ><strong>Date</strong></div>
            </div>
            <t t-foreach="teacher.session_ids" t-as="session">
            		<div class="row">
 					<div class="col-md-3" t-field="session.name" />
 					<div class="col-md-1" t-field="session.qty"  />
 					<div class="col-md-1" t-field="session.unit_price"  />
-					<div class="col-md-3" t-field="session.date" t-field-options='{"format": "dd MMMM yyyy"}' />
+					<div id="last_column" class="col-md-3" t-field="session.date" t-field-options='{"format": "dd MMMM yyyy"}' />
 				</div>
            </t>
            <p><a t-attf-href="/{{return_path}}">Back</a></p>
@@ -47,4 +48,21 @@
       <div class="oe_structure" />
     </t>
   </template>
+  
+  
+  
+  <template id="view_session">
+  	
+  
+  
+  </template>
+  
+<!--   <template id="view_session_editor" inherit_id="view_teacher"> -->
+<!--   	<xpath expr="//div[@id='last_header']" position="after"> -->
+<!--   		<div class="col-mod-3" >Editeur</div> -->
+<!--   	</xpath>   -->
+<!--   	<xpath expr="//div[@id='last_column']" position="after"> -->
+<!--   		<div class="col-mod-3" t-esc="session.editor.name" /> -->
+<!--   	</xpath>   -->
+<!--   </template> -->
 </data></openerp>

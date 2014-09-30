@@ -147,3 +147,9 @@ class Teachers(models.Model):
     session_ids = fields.Many2many('training.training')
     
     
+class TrainingExtended(models.Model):
+    _inherit = 'training.training'
+    
+    editor = fields.Many2one('res.partner')
+    
+    

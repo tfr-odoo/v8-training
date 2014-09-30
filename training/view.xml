@@ -20,6 +20,7 @@
 		        		<field name="client_id" />
 		        		<field name="client_name" />
 		        		<field name="date" />
+		        		<field name="editor" />
 		        		</group>
 		        		
 		        		

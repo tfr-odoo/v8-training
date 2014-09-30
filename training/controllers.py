@@ -16,10 +16,10 @@ class Training(http.Controller):
     @http.route('/smile/<int:teacher_id>/', auth='public', website=True)
     def teacher(self, teacher_id):
         teachers_env = http.request.env['academy.teachers']
-        
+        page = 'training.view_teacher'
         if not teachers_env.search([('id', '=', teacher_id)]):
-            raise ValueError("Record not found")
-        return http.request.render('training.view_teacher', {
+            page = 'website.page_404'
+        return http.request.render(page, {
             'teacher': teachers_env.browse(teacher_id),
             'return_path' : 'smile'
         })
