@@ -1,0 +1,12 @@
+-
+  I want to create a teacher
+-
+  !record {model: academy.teachers, id: teacher_teacher1}:
+    name: Francois
+    first_name : Thibault
+
+-
+  I check the teacher exist
+-
+  !assert {model: academy.teachers, id: teacher_teacher1, string: 'Teacher does not exist'}:
+    - name == 'Francois'

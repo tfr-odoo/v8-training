@@ -34,4 +34,8 @@
     'demo': [
         'demo.xml',
     ],
+    
+    'test': [
+        'test/test_teacher.yml',
+    ],
 }
