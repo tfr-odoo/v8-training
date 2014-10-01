@@ -64,7 +64,7 @@ class Session(models.Model):
     course_id = fields.Many2one('openacademy.course', 'Course', required=True, ondelete='cascade')
     active = fields.Boolean('Active', default=True)
     attendee_count = fields.Integer(compute='_get_attendee_count',
-                                string='attendee Count',
+                                string='attendee Count', store=True
                                 )
     state = fields.Selection([('draft','Draft'),('confirmed','Confirmed'),
              ('done','Done')], string='Status',readonly=True,
@@ -109,4 +109,5 @@ class Attendee(models.Model):
     name = fields.Char('Attendee Name')
     partner_id = fields.Many2one('res.partner','Partner', required=True, ondelete="cascade")
     session_id = fields.Many2one('openacademy.session','Session', required=True, ondelete="cascade")
+
 

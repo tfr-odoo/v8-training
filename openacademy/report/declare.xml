@@ -3,10 +3,51 @@
     <data>
         <report
           id="sessions_report"
-          string="Print sessions"
           model="openacademy.session"
-          name="sessions.report"
-          rml="openacademy/report/sessions.rml"
+		  string="Print Sessions"
+   	 	  report_type="qweb-html"
+    	  name="openacademy.report_session"
+    	  file="Report Teacher"
+    
         />
+        
+        <template id="openacademy.report_session">
+	        <t t-call="report.html_container">
+	            <t t-foreach="docs" t-as="session">
+	                <t t-call="report.external_layout">
+	                    <div class="page">
+	                    	<div class="oe_structure" />
+	                    	<div class="oe_structure">
+		                     	<h1><span t-field="session.name"/></h1>
+					           	<p>
+						           	<ul>
+						           		<li>
+						           			Date: <span t-field="session.start_date" t-field-options='{"format": "dd MMMM yyyy"}' />
+						           		</li> 
+						           		<t t-if="session.remaining_seats_percent" >
+							           		<li>
+							           			Completion: <span t-esc="100.0 - session.remaining_seats_percent" />
+							           		</li>
+						           		</t>
+						           		<li>
+						           			Responsible: <span t-field="session.course_id.responsible_id.name" />
+						           		</li>
+						           		<li>
+						           			Instructor: <span t-field="session.instructor_id.name" />
+						           		</li>
+						           	</ul>
+					           	</p>
+					           	<t t-foreach="session.attendee_ids" t-as="attendee">
+						           	<div class="row">
+						           		<div class="col-xs-3" t-esc="attendee.partner_id.name" />
+						           	</div>
+						        </t>
+		                   </div>
+	                       <div class="oe_structure" />
+				        </div>
+	                </t>
+	            </t>
+	        </t>
+    	</template>
     </data>
 </openerp>
